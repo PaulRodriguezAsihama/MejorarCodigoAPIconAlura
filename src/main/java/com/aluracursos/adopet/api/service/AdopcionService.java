@@ -5,7 +5,6 @@ import com.aluracursos.adopet.api.dto.ReprobacionAdopcionDTO;
 import com.aluracursos.adopet.api.dto.SolicitudAdopcionDTO;
 import com.aluracursos.adopet.api.model.Adopcion;
 import com.aluracursos.adopet.api.model.Mascota;
-import com.aluracursos.adopet.api.model.StatusAdopcion;
 import com.aluracursos.adopet.api.model.Tutor;
 import com.aluracursos.adopet.api.repository.AdopcionRepository;
 import com.aluracursos.adopet.api.repository.MascotaRepository;
@@ -14,7 +13,6 @@ import com.aluracursos.adopet.api.validations.ValidacionesSolicitudAdopcion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
