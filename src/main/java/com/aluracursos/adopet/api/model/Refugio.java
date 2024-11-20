@@ -1,7 +1,10 @@
 package com.aluracursos.adopet.api.model;
 
+import com.aluracursos.adopet.api.dto.RefugioDto;
+import com.aluracursos.adopet.api.dto.RegistroRefugioDTO;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -15,24 +18,15 @@ public class Refugio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @NotBlank
-    @Column(name = "nombre")
     private String nombre;
 
-    @NotBlank
-    @Pattern(regexp = "\\(?\\d{2}\\)?\\d?\\d{4}-?\\d{4}")
-    @Column(name = "telefono")
     private String telefono;
 
-    @NotBlank
-    @Email
-    @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "refugio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "refugio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference("refugio_mascotas")
     private List<Mascota> mascotas;
 
@@ -53,39 +47,27 @@ public class Refugio {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public List<Mascota> getMascotas() {
         return mascotas;
     }
 
-    public void setMascotas(List<Mascota> mascotas) {
-        this.mascotas = mascotas;
+    public Refugio() {
+    }
+    public Refugio(@Valid RegistroRefugioDTO dto){
+        this.nombre= dto.nombre();
+        this.telefono= dto.telefono();
+        this.email= dto.email();
     }
 }

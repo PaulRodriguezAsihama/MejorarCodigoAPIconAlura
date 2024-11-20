@@ -1,11 +1,10 @@
 package com.aluracursos.adopet.api.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.aluracursos.adopet.api.dto.ActualizacionTutorDTO;
+import com.aluracursos.adopet.api.dto.RegistroTutorDTO;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,26 +14,30 @@ public class Tutor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @NotBlank
-    @Column(name = "nombre")
     private String nombre;
 
-    @NotBlank
-    @Pattern(regexp = "\\(?\\d{2}\\)?\\d?\\d{4}-?\\d{4}")
-    @Column(name = "telefono")
     private String telefono;
 
-    @NotBlank
-    @Email
-    @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
-    @JsonManagedReference("tutor_adopciones")
-    private List<Adopcion> adopciones;
+    @OneToMany(mappedBy = "tutor")
+    private List<Adopcion> adopciones= new ArrayList<>();
+
+    public Tutor() {
+    }
+
+    public Tutor(RegistroTutorDTO dto) {
+        this.nombre= dto.nombre();
+        this.telefono= dto.telefono();
+        this.email= dto.email();
+    }
+    public void actualizarDatos(ActualizacionTutorDTO dto) {
+        this.nombre=dto.nombre();
+        this.email= dto.email();
+        this.telefono= dto.telefono();
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -53,39 +56,20 @@ public class Tutor {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
+   public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getTelefono() {
+   public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getEmail() {
+   public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<Adopcion> getAdopciones() {
+   public List<Adopcion> getAdopciones() {
         return adopciones;
     }
 
-    public void setAdopciones(List<Adopcion> adopciones) {
-        this.adopciones = adopciones;
-    }
-}
+   }
